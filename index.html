@@ -143,7 +143,6 @@
         .inner-display {
             display: flex;
         }
-
     </style>
 </head>
 
@@ -169,8 +168,9 @@
                 <h4 id="temperature" class='text-start' style="font-size: larger;font-weight: bold;"></h4>
                 <p class='text-start' style="font-size: larger;"><strong>Feels Like:</strong> <strong><span
                             id="feelsLike"></span></strong></p>
-                <img id="weatherIcon" src="" alt="Weather Icon"
-                    style="width:200px;height:200px;">
+                <img id="liveWeatherImage" src="" alt="Live Weather Image"
+                    style="width:300px;height:200px; border-radius: 10px; margin-top: 10px;">
+
             </div>
 
             <div class="right-column">
@@ -190,6 +190,7 @@
                             id="sunrise"></span></strong></p>
                 <p class='text-start' style="font-size: larger;"><strong>Sunset:</strong><strong><span
                             id="sunset"></span></strong> </p>
+                <p class='text-start' style="font-size: larger;"><strong>Sun : </strong><span><img id="weatherIcon" src="" alt="Weather Icon" style="width:40px;height:40px;"></span></p>
 
             </div>
         </div>
@@ -210,7 +211,7 @@
                 const data = await response.json();
                 document.getElementById("cityName").innerText = data.name;
                 document.getElementById("temperature").innerText = `Temperature: ${data.main.temp}°C`;
-                document.getElementById("feelsLike").innerText =` ${data.main.feels_like}°C`;
+                document.getElementById("feelsLike").innerText = ` ${data.main.feels_like}°C`;
                 document.getElementById("humidity").innerText = data.main.humidity;
                 document.getElementById("pressure").innerText = data.main.pressure;
                 document.getElementById("windSpeed").innerText = data.wind.speed;
@@ -227,6 +228,7 @@
 
                 document.getElementById("weatherResult").classList.remove("d-none");
                 changeBackground(data.weather[0].main);
+                updateLiveWeatherImage(data.weather[0].main);
             } catch (error) {
                 alert(error.message);
             }
@@ -245,15 +247,39 @@
                     bgImage = "url('https://images.pexels.com/photos/325117/pexels-photo-325117.jpeg?auto=compress&cs=tinysrgb&w=300')";
                     break;
                 case 'clear':
-                    bgImage = "url('https://images.pexels.com/photos/1183099/pexels-photo-1183099.jpeg?auto=compress&cs=tinysrgb&w=600')";
+                    bgImage = "url('https://img.freepik.com/free-photo/photorealistic-style-clouds-meadow_23-2151058818.jpg?t=st=1742118125~exp=1742121725~hmac=ba2a3352bcd7c6b2e0d575302a298dc8d247cabe3cfd0302d75bb197337a4898&w=826')";
                     break;
                 default:
                     bgImage = "url('https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=600')";
             }
             document.body.style.backgroundImage = bgImage;
         }
+
+        function updateLiveWeatherImage(weather) {
+            let imgSrc;
+            switch (weather.toLowerCase()) {
+                case 'thunderstorm':
+                    imgSrc = "https://img.freepik.com/free-photo/dramatic-sky-mountain-ominous-beautiful-generated-by-ai_188544-43239.jpg?t=st=1742117859~exp=1742121459~hmac=20c7a53c5774be1258f25a29fb0c84b7341d232f7eef2e787c7065c11397a099&w=1060";
+                    break;
+                case 'clouds':
+                    imgSrc = "https://img.freepik.com/free-photo/photorealistic-style-clouds_23-2151058968.jpg?t=st=1742117822~exp=1742121422~hmac=3cf2d6ee1be3b2695bdd85153eb4ea2a7fa683833d75779eaace82471a79644f&w=1380";
+                    break;
+                case 'rain':
+                    imgSrc = "https://img.freepik.com/free-photo/thunderstorm-city_23-2151750337.jpg?t=st=1742117909~exp=1742121509~hmac=14956ee43d58cd38665f94839ebb047a4f9e70cf6299105731c67e066b3d0374&w=996";
+                    break;
+                case 'clear':
+                    imgSrc = "https://img.freepik.com/free-photo/photorealistic-style-clouds_23-2151058945.jpg?t=st=1742117228~exp=1742120828~hmac=ee7779e1f788020c86c5bf122a260de338409d43238fe0cb994c1bd95e2f8d41&w=826";
+                    break;
+                default:
+                    imgSrc = "https://img.freepik.com/free-photo/beautiful-landscape-with-blue-sky_23-2151906835.jpg?t=st=1742117986~exp=1742121586~hmac=eee717ed9fe9a607562a92d2afc525d7e26e368ff76df469620ff807adc3ac69&w=1380";
+            }
+            document.getElementById("liveWeatherImage").src = imgSrc;
+        }
+
+
+
     </script>
-    
+
 </body>
 
 </html>
